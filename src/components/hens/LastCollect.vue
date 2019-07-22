@@ -6,17 +6,17 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { UtilsDate } from "@/utils/date";
-import { default as axios } from "axios";
-import { EggsCollect } from "@/interfaces/hens/hens.interface";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { UtilsDate } from '@/utils/date';
+import { default as axios } from 'axios';
+import { EggsCollect } from '@/interfaces/hens/hens.interface';
 
-Vue.filter("formatDate", (date: Date) => {
+Vue.filter('formatDate', (date: Date) => {
   if (date) {
     return `${UtilsDate.translateDay(
-      date.getDay()
+      date.getDay(),
     )} ${date.getDate()} ${UtilsDate.translateMounth(
-      date.getMonth()
+      date.getMonth(),
     )} vers ${date.getHours()}h`;
   }
 });
@@ -28,21 +28,21 @@ export default class LastCollect extends Vue {
     super();
 
     this.eggsCollect = {
-      picker: "no one",
+      picker: 'no one',
       number: 0,
-      date: new Date()
+      date: new Date(),
     };
 
     axios
-      .get("http://localhost:3000/hens/last")
-      .then(response => {
+      .get('http://localhost:3000/hens/last')
+      .then((response) => {
         const result: EggsCollect = response.data as EggsCollect;
         this.eggsCollect.picker = result.picker;
         this.eggsCollect.number = result.number;
         this.eggsCollect.date = new Date(result.date);
       })
-      .catch(err => {
-        console.error(err);
+      .catch((err) => {
+        throw err;
       });
   }
 }

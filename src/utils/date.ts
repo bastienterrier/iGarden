@@ -2,52 +2,52 @@ export class UtilsDate {
   public static translateDay(day: number): string {
     switch (day) {
       case 0:
-        return "dimanche";
+        return 'dimanche';
       case 1:
-        return "lundi";
+        return 'lundi';
       case 2:
-        return "mardi";
+        return 'mardi';
       case 3:
-        return "mercredi";
+        return 'mercredi';
       case 4:
-        return "jeudi";
+        return 'jeudi';
       case 5:
-        return "vendredi";
+        return 'vendredi';
       case 6:
-        return "samedi ";
+        return 'samedi ';
       default:
-        return "";
+        return '';
     }
   }
 
   public static translateMounth(mounth: number): string {
     switch (mounth) {
       case 0:
-        return "janvier";
+        return 'janvier';
       case 1:
-        return "février";
+        return 'février';
       case 2:
-        return "mars";
+        return 'mars';
       case 3:
-        return "avril";
+        return 'avril';
       case 4:
-        return "mai";
+        return 'mai';
       case 5:
-        return "juin";
+        return 'juin';
       case 6:
-        return "juillet";
+        return 'juillet';
       case 7:
-        return "août";
+        return 'août';
       case 8:
-        return "septembre";
+        return 'septembre';
       case 9:
-        return "octobre";
+        return 'octobre';
       case 10:
-        return "novembre";
+        return 'novembre';
       case 11:
-        return "décembre";
+        return 'décembre';
       default:
-        return "";
+        return '';
     }
   }
 }
