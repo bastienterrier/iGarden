@@ -3,10 +3,34 @@
     <v-layout row justify-center>
       <v-dialog v-model="dialog" persistent max-width="400">
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark v-on="on">Signalez votre passage !</v-btn>
+          <v-btn color="green" dark v-on="on">
+            signalez votre passage
+            &nbsp;
+            <v-icon>fa fa-egg</v-icon>
+          </v-btn>
         </template>
-        <FillCollect/>
-        
+        <v-card>
+          <v-card-title class="headline">Informations complémentaires</v-card-title>
+          <v-card-text>
+            <Counter v-model="eggsCount" :max="25" />
+          </v-card-text>
+          <v-card-text :hidden="eggsCount === 0">
+            <span class="egg" v-for="(egg,i) in eggsCount" v-bind:key="i">
+              <v-icon>fa fa-egg</v-icon>
+            </span>
+          </v-card-text>
+          <v-card-text :hidden="iconResult === ''">
+            <p>
+              <v-icon>{{iconResult}}</v-icon>
+              {{explainationError}}
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" flat @click="signalCollect">Valider</v-btn>
+            <v-btn color="orange darken-1" flat @click="dialog = false">Annuler</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-dialog>
     </v-layout>
   </div>
@@ -15,15 +39,37 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import FillCollect from '@/components/hens/FillCollect.vue'; // @ is an alias to /src
-
+import Counter from '@/components/commons/Counter.vue';
 import { default as axios } from 'axios';
 
 @Component({
-  components: {FillCollect},
+  components: { Counter },
 })
 export default class NewCollect extends Vue {
   public dialog: boolean = false;
+  public iconResult: string = '';
+  public explainationError: string = '';
+  public eggsCount: number = 0;
+
+  public signalCollect() {
+    const user: string = localStorage.getItem('user') || '';
+    axios
+      .post(`${process.env.VUE_APP_API_URL}/hens`, {
+        picker: user,
+        number: this.eggsCount,
+        date: new Date(),
+      })
+      .then(response => {
+        this.iconResult = 'fa fa-thumbs-up';
+        setTimeout(() => {
+          this.dialog = false;
+        }, 1000);
+      })
+      .catch(err => {
+        this.iconResult = 'fa fa-exclamation-triangle';
+        this.explainationError = err;
+      });
+  }
 }
 </script>
 

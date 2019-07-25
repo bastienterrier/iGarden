@@ -34,14 +34,14 @@ export default class LastCollect extends Vue {
     };
 
     axios
-      .get('http://localhost:3000/hens/last')
-      .then((response) => {
+      .get(`${process.env.VUE_APP_API_URL}/hens/last`)
+      .then(response => {
         const result: EggsCollect = response.data as EggsCollect;
         this.eggsCollect.picker = result.picker;
         this.eggsCollect.number = result.number;
         this.eggsCollect.date = new Date(result.date);
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   }

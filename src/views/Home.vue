@@ -1,20 +1,24 @@
 <template>
   <div>
-    <Header />
+    <SelectUser />
 
-    <Hens />
+    <p>
+      <router-link to="/egg">Collecte des oeufs</router-link>
+      <router-link to="/garden">Arrosage du potager</router-link>
+      <router-link to="/horse">Abreuvoir des chevaux</router-link>
+    </p>
   </div>
 </template>
 
+
+
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Header from '@/components/Header.vue'; // @ is an alias to /src
-import Hens from '@/components/hens/Hens.vue'; // @ is an alias to /src
+import SelectUser from '@/components/commons/SelectUser.vue'; // @ is an alias to /src
 
 @Component({
   components: {
-    Header,
-    Hens,
+    SelectUser,
   },
 })
 export default class Home extends Vue {}
