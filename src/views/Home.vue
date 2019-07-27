@@ -2,13 +2,39 @@
   <div>
     <SelectUser />
 
-    <p>
-      <router-link to="/egg">Collecte des oeufs</router-link>
-      <router-link to="/garden">Arrosage du potager</router-link>
-      <router-link to="/horse">Abreuvoir des chevaux</router-link>
-    </p>
+    <ul>
+      <li>
+        <router-link to="/egg">
+          Collecte des oeufs
+          <v-icon color="#4CAF50">fa-egg</v-icon>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/garden">
+          Arrosage du potager
+          <v-icon color="#4CAF50">fa-seedling</v-icon>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/horse">
+          Eau des chevaux
+          <v-icon color="#4CAF50">fa-horse</v-icon>
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
+
+<style scoped>
+a {
+  text-decoration: none;
+  color: #1b5e20;
+}
+ul li {
+  list-style-type: none;
+  padding-top: 10px;
+}
+</style>
 
 
 

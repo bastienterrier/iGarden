@@ -1,9 +1,9 @@
 <template>
-  <div id="new-collect">
-    <v-layout row justify-center>
+  <v-layout id="new-collect" row align-center>
+    <v-flex>
       <v-dialog v-model="dialog" persistent max-width="400">
         <template v-slot:activator="{ on }">
-          <v-btn color="green" dark v-on="on">
+          <v-btn color="#4CAF50" dark v-on="on">
             signalez votre passage
             &nbsp;
             <v-icon>fa fa-egg</v-icon>
@@ -14,11 +14,12 @@
           <v-card-text>
             <Counter v-model="eggsCount" :max="25" />
           </v-card-text>
+          <!-- 
           <v-card-text :hidden="eggsCount === 0">
             <span class="egg" v-for="(egg,i) in eggsCount" v-bind:key="i">
               <v-icon>fa fa-egg</v-icon>
             </span>
-          </v-card-text>
+          </v-card-text>-->
           <v-card-text :hidden="iconResult === ''">
             <p>
               <v-icon>{{iconResult}}</v-icon>
@@ -27,13 +28,13 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" flat @click="signalCollect">Valider</v-btn>
-            <v-btn color="orange darken-1" flat @click="dialog = false">Annuler</v-btn>
+            <v-btn color="#4CAF50" dark flat @click="signalCollect">Valider</v-btn>
+            <v-btn color="#FF9800" dark flat @click="dialog = false">Annuler</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-layout>
-  </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 

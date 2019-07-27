@@ -19,15 +19,15 @@
       </v-btn>
     </router-link>
 
-    <router-link to="/horse">
-      <v-btn icon>
-        <v-icon>fa-horse</v-icon>
-      </v-btn>
-    </router-link>
-
     <router-link to="/garden">
       <v-btn icon>
         <v-icon>fa-seedling</v-icon>
+      </v-btn>
+    </router-link>
+
+    <router-link to="/horse">
+      <v-btn icon>
+        <v-icon>fa-horse</v-icon>
       </v-btn>
     </router-link>
   </v-app-bar>

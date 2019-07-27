@@ -28,7 +28,7 @@ export default class LastCollect extends Vue {
     super();
 
     this.eggsCollect = {
-      picker: 'no one',
+      picker: '',
       number: 0,
       date: new Date(),
     };
