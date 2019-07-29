@@ -11,7 +11,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" flat @click="selectUser">Valider</v-btn>
+            <v-btn color="#4CAF50" dark flat @click="selectUser">Valider</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -40,7 +40,7 @@ export default class SelectUser extends Vue {
       'Jean-Luc',
       'Bastien',
       'Cyril',
-    ].sort();
+    ];
     let user: string = localStorage.getItem('user') || '';
     if (user !== '') {
       this.dialog = false;

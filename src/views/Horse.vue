@@ -1,5 +1,5 @@
 <template>
-  <p>En cours...</p>
+  <p>🚧 Fonctionnalité en cours de développement...</p>
 </template>
 
 
