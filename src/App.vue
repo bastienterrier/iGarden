@@ -31,4 +31,8 @@ export default class App extends Vue {}
 #body-content {
   margin-top: 20px;
 }
+
+.highlight {
+  font-size: 2em;
+}
 </style>

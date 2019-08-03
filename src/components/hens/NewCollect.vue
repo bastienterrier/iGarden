@@ -12,7 +12,7 @@
         <v-card>
           <v-card-title class="headline">Informations complémentaires</v-card-title>
           <v-card-text>
-            <Counter v-model="eggsCount" :max="25" />
+            <Counter v-model="eggsCount" :max="25" :step="1" />
           </v-card-text>
           <!-- 
           <v-card-text :hidden="eggsCount === 0">

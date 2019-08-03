@@ -1,12 +1,12 @@
-interface GardenSummary {
+export interface GardenSummaryInterface {
   action: string;
   type: string;
   value: any;
-  comment: string;
+  unit: string;
 }
 
 export interface GardenCollectInterface {
   user: string;
   date: Date;
-  summary: GardenSummary[];
+  summary: GardenSummaryInterface[];
 }

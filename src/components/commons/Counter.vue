@@ -1,12 +1,14 @@
 <template>
   <div>
-    <v-btn-toggle v-model="toggle_one" mandatory>
+    <v-btn-toggle mandatory>
+      <input class="label-input" :value="label" disabled :hidden="label===undefined" />
+
       <input
-        class="counter-input"
+        :class="label===undefined?'label-input' :'counter-input'"
         type="number"
         :min="0"
         :max="max"
-        :step="1"
+        :step="step"
         @blur="blurHandler"
         v-model.number="currentValue"
         @keydown.up.prevent="increment"
@@ -36,14 +38,20 @@ export default class Counter extends Vue {
   @Prop()
   max: number = 20;
 
+  @Prop()
+  label: string | undefined;
+
+  @Prop()
+  step: number = 1;
+
   increment() {
-    let newVal = this.currentValue + 1;
+    let newVal = this.currentValue + this.step;
     this.decrementDisabled = false;
     this.updateValue(newVal);
   }
 
   decrement() {
-    let newVal = this.currentValue - 1;
+    let newVal = this.currentValue - this.step;
     this.incrementDisabled = false;
     this.updateValue(newVal);
   }
@@ -83,6 +91,15 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .counter-input {
-  margin-left: 20px;
+  text-align: center;
+  border-top: solid rgb(214, 211, 211) 1px;
+  border-bottom: solid rgb(214, 211, 211) 1px;
+}
+.label-input {
+  text-align: center;
+  border: solid rgb(214, 211, 211) 1px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  text-align: center;
 }
 </style>

@@ -1,22 +1,14 @@
 <template>
   <div>
-    <v-simple-table>
-      <thead>
-        <tr>
-          <th style="font-size:2em;">{{gardenCollect.user}} le {{gardenCollect.date | formatDate}}</th>
-          <th>Commentaire</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in gardenCollect.summary" :key="item.action">
-          <td>
-            {{displayResult(item.type, item.value)}}
-            {{ item.action }}
-          </td>
-          <td>{{item.comment}}</td>
-        </tr>
-      </tbody>
-    </v-simple-table>
+    <p class="highlight">{{gardenCollect.user}} le {{gardenCollect.date | formatDate}}</p>
+
+    <p v-for="item in gardenCollect.summary" :key="item.action">
+      {{displayResult(item)}}
+      {{ item.action }}
+      <b
+        style="font-size:1.2em;"
+      >{{displayValue(item)}}</b>
+    </p>
   </div>
 </template>
 
@@ -24,7 +16,10 @@
 import { Component, Vue } from 'vue-property-decorator';
 import VSpacer from '@/components/commons/VSpacer.vue'; // @ is an alias to /src
 import '@/utils/filter';
-import { GardenCollectInterface } from '@/interfaces/garden/garden.interface';
+import {
+  GardenCollectInterface,
+  GardenSummaryInterface,
+} from '@/interfaces/garden/garden.interface';
 import { default as axios } from 'axios';
 import { Utils } from '@/utils/utils';
 
@@ -47,19 +42,25 @@ export default class GardenSummary extends Vue {
       .then(response => {
         const result: GardenCollectInterface = response.data as GardenCollectInterface;
         Utils.copyObject(this.gardenCollect, result);
-        console.log(this.gardenCollect);
       })
       .catch(err => {
         throw err;
       });
   }
 
-  displayResult(type: string, value: any) {
-    if (type === 'boolean') {
-      return value ? '✔️' : '❌';
-    } else if (type === 'number') {
-      return value === null ? '❌' : `✔️ ${value} - `;
+  displayResult(item: GardenSummaryInterface) {
+    if (item.type === 'boolean') {
+      return item.value ? '✔️' : '❌';
+    } else if (item.type === 'number') {
+      return item.value === null ? '❌' : '✔️';
     }
+  }
+
+  displayValue(item: GardenSummaryInterface) {
+    if (item.type === 'number' && item.value !== null) {
+      return item.unit !== '' ? `${item.value} ${item.unit}` : item.value;
+    }
+    return '';
   }
 }
 </script>

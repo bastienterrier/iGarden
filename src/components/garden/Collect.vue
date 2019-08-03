@@ -12,15 +12,11 @@
         <v-card>
           <v-card-title class="headline">Informations complémentaires</v-card-title>
           <v-card-text>
-            <Counter v-model="Count" :max="30" />
+            <SelectBoolean label="arrosage serre" v-model="wateringDone" />
+            <Counter label="niveau cuve en L" :max="1000" :step="50" v-model="tankLevel" />
+            <Counter label="nombre de courgette" :max="20" :step="1" v-model="courgetteNumber" />
           </v-card-text>
-          <!-- 
-          <v-card-text :hidden="eggsCount === 0">
-            <span class="egg" v-for="(egg,i) in eggsCount" v-bind:key="i">
-              <v-icon>fa fa-egg</v-icon>
-            </span>
-          </v-card-text>
-          -->
+
           <v-card-text :hidden="iconResult === ''">
             <p>
               <v-icon>{{iconResult}}</v-icon>
@@ -42,11 +38,15 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Counter from '@/components/commons/Counter.vue';
+import SelectBoolean from '@/components/commons/SelectBoolean.vue';
 import { default as axios } from 'axios';
-import { GardenCollectInterface } from '@/interfaces/garden/garden.interface';
+import {
+  GardenCollectInterface,
+  GardenSummaryInterface,
+} from '@/interfaces/garden/garden.interface';
 
 @Component({
-  components: { Counter },
+  components: { Counter, SelectBoolean },
 })
 export default class GardenCollect extends Vue {
   public dialog: boolean = false;
@@ -54,13 +54,46 @@ export default class GardenCollect extends Vue {
   public explainationError: string = '';
   public eggsCount: number = 0;
 
-  private setGardenCollect(): GardenCollectInterface {}
+  private wateringDone: boolean = false;
+  private courgetteNumber: number = -1;
+  private tankLevel: number = -1;
+
+  private setGardenCollect(): GardenCollectInterface {
+    const user: string = localStorage.getItem('user') || '';
+    const summary: GardenSummaryInterface[] = new Array();
+    summary.push({
+      action: 'Arrosage de la serre',
+      type: 'boolean',
+      value: this.wateringDone,
+      unit: '',
+    });
+    summary.push({
+      action: 'Niveau de la cuve',
+      type: 'number',
+      value: this.tankLevel === -1 ? NaN : this.tankLevel,
+      unit: 'L',
+    });
+    summary.push({
+      action: 'Courgettes récupérées',
+      type: 'number',
+      value: this.courgetteNumber === -1 ? NaN : this.courgetteNumber,
+      unit: '',
+    });
+
+    const gardenCollect: GardenCollectInterface = {
+      user,
+      date: new Date(),
+      summary,
+    };
+
+    return gardenCollect;
+  }
 
   public signalCollect() {
     const user: string = localStorage.getItem('user') || '';
     const data: GardenCollectInterface = this.setGardenCollect();
     axios
-      .post(`${process.env.VUE_APP_API_URL}/gardens`)
+      .post(`${process.env.VUE_APP_API_URL}/gardens`, data)
       .then(response => {
         this.iconResult = 'fa fa-thumbs-up';
         setTimeout(() => {

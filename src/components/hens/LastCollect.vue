@@ -1,6 +1,7 @@
 <template>
   <div id="last-collect">
     <p
+      class="highlight"
       :hidden="eggsCollect.picker===''"
     >{{eggsCollect.picker}} a récupéré {{eggsCollect.number}} oeufs le {{ eggsCollect.date | formatDate }}.</p>
     <div :hidden="eggsCollect.picker!==''">
