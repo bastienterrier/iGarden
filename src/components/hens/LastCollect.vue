@@ -1,6 +1,14 @@
 <template>
   <div id="last-collect">
-    <p>{{eggsCollect.picker}} a récupéré {{eggsCollect.number}} oeufs le {{ eggsCollect.date | formatDate }}.</p>
+    <p
+      :hidden="eggsCollect.picker===''"
+    >{{eggsCollect.picker}} a récupéré {{eggsCollect.number}} oeufs le {{ eggsCollect.date | formatDate }}.</p>
+    <div :hidden="eggsCollect.picker!==''">
+      {{errorMessage.message}}
+      <div :hidden="errorMessage.message!==''">
+        <v-progress-circular indeterminate color="#4CAF50"></v-progress-circular>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -10,39 +18,30 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { UtilsDate } from '@/utils/date';
 import { default as axios } from 'axios';
 import { EggsCollect } from '@/interfaces/hens/hens.interface';
+import { ErrorInterface } from '@/interfaces/commons/error.interface';
+import { Utils } from '@/utils/utils';
+import '@/utils/filter';
 
-Vue.filter('formatDate', (date: Date) => {
-  if (date) {
-    return `${UtilsDate.translateDay(
-      date.getDay(),
-    )} ${date.getDate()} ${UtilsDate.translateMounth(
-      date.getMonth(),
-    )} vers ${date.getHours()}h`;
-  }
-});
 @Component
 export default class LastCollect extends Vue {
-  private eggsCollect: EggsCollect;
+  private eggsCollect: EggsCollect = new EggsCollect();
+  private errorMessage: ErrorInterface;
 
   constructor() {
     super();
 
-    this.eggsCollect = {
-      picker: '',
-      number: 0,
-      date: new Date(),
+    this.errorMessage = {
+      message: '',
     };
 
     axios
       .get(`${process.env.VUE_APP_API_URL}/hens/last`)
       .then(response => {
         const result: EggsCollect = response.data as EggsCollect;
-        this.eggsCollect.picker = result.picker;
-        this.eggsCollect.number = result.number;
-        this.eggsCollect.date = new Date(result.date);
+        Utils.copyObject(this.eggsCollect, result);
       })
       .catch(err => {
-        throw err;
+        this.errorMessage.message = err;
       });
   }
 }
