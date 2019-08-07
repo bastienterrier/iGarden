@@ -2,6 +2,8 @@
   <div>
     <SelectUser />
 
+    <Calendar/>
+
     <ul>
       <li>
         <router-link to="/egg">
@@ -35,10 +37,12 @@ ul li {
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import SelectUser from '@/components/commons/SelectUser.vue'; // @ is an alias to /src
+import Calendar from '@/components/home/Calendar.vue'; // @ is an alias to /src
 
 @Component({
   components: {
     SelectUser,
+    Calendar
   },
 })
 export default class Home extends Vue {}

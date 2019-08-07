@@ -10,3 +10,11 @@ Vue.filter('formatDate', (date: Date) => {
     )} vers ${date.getHours()}h`;
   }
 });
+
+Vue.filter('formatDay', (date: Date) => {
+  if (date) {
+    return `${UtilsDate.translateDay(
+      date.getDay(),
+    )} ${date.getDate()} ${UtilsDate.translateMounth(date.getMonth())}`;
+  }
+});
