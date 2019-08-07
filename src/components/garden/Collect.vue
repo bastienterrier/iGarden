@@ -13,6 +13,7 @@
           <v-card-title class="headline">Informations complémentaires</v-card-title>
           <v-card-text>
             <SelectBoolean label="arrosage serre" v-model="wateringDone" />
+            <SelectBoolean label="abreuvoir chevaux" v-model="horsesDone" />
             <Counter label="niveau cuve en L" :max="1000" :step="50" v-model="tankLevel" />
             <Counter label="nombre de courgette" :max="20" :step="1" v-model="courgetteNumber" />
           </v-card-text>
@@ -55,6 +56,7 @@ export default class GardenCollect extends Vue {
   public eggsCount: number = 0;
 
   private wateringDone: boolean = false;
+  private horsesDone: boolean = false;
   private courgetteNumber: number = -1;
   private tankLevel: number = -1;
 
@@ -65,6 +67,12 @@ export default class GardenCollect extends Vue {
       action: 'Arrosage de la serre',
       type: 'boolean',
       value: this.wateringDone,
+      unit: '',
+    });
+    summary.push({
+      action: 'Abreuvoir des chevaux',
+      type: 'boolean',
+      value: this.horsesDone,
       unit: '',
     });
     summary.push({

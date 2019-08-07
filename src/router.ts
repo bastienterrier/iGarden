@@ -22,11 +22,6 @@ export default new Router({
       component: Egg,
     },
     {
-      path: '/horse',
-      name: 'horse',
-      component: Horse,
-    },
-    {
       path: '/garden',
       name: 'garden',
       component: Garden,

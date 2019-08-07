@@ -15,12 +15,6 @@
           <v-icon color="#4CAF50">fa-seedling</v-icon>
         </router-link>
       </li>
-      <li>
-        <router-link to="/horse">
-          Eau des chevaux
-          <v-icon color="#4CAF50">fa-horse</v-icon>
-        </router-link>
-      </li>
     </ul>
   </div>
 </template>
