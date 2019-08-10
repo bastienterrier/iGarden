@@ -1,6 +1,30 @@
 import { EggsCollect } from '@/interfaces/hens/hens.interface';
 
 export class Utils {
+  public static getUsers(): string[] {
+    return [
+      'Ludivine',
+      'Margot',
+      'Janine',
+      'Marie-Paule',
+      'Jean-Luc',
+      'Bastien',
+      'Cyril',
+    ];
+  }
+
+  public static getUsersColor(): string[] {
+    return [
+      '#000000',
+      '#ffffff',
+      '#ff0000',
+      '#ffff00',
+      '#0000ff',
+      '#ff00ff',
+      '#00ffff',
+    ];
+  }
+
   public static copyEggsCollect(source: EggsCollect, copy: EggsCollect) {
     source.picker = copy.picker;
     source.number = copy.number;

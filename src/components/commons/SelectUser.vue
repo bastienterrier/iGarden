@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Utils } from '../../utils/utils';
 
 @Component({
   components: {},
@@ -32,15 +33,7 @@ export default class SelectUser extends Vue {
 
   constructor() {
     super();
-    this.users = [
-      'Ludivine',
-      'Margot',
-      'Janine',
-      'Marie-Paule',
-      'Jean-Luc',
-      'Bastien',
-      'Cyril',
-    ];
+    this.users = Utils.getUsers();
     let user: string = localStorage.getItem('user') || '';
     if (user !== '') {
       this.dialog = false;

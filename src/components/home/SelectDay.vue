@@ -19,6 +19,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import '@/utils/filter';
 import { default as axios } from 'axios';
+import { CalendarCollectInterface } from '../../interfaces/calendar/calendar.interface';
 
 @Component({
   components: {},
@@ -30,7 +31,17 @@ export default class SelectDay extends Vue {
   @Prop(Number) readonly date: Date | undefined;
 
   public selectDay() {
-    console.log(this.user);
+    if (this.date instanceof Date) {
+      const data: CalendarCollectInterface = {
+        user: this.user,
+        date: new Date(this.date),
+      };
+      axios
+        .post(`${process.env.VUE_APP_API_URL}/calendars`, data)
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
+    }
+
     this.closeDialog();
   }
 
