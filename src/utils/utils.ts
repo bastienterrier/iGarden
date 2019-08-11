@@ -16,7 +16,7 @@ export class Utils {
   public static getUsersColor(): string[] {
     return [
       '#000000',
-      '#ffffff',
+      '#ababab',
       '#ff0000',
       '#ffff00',
       '#0000ff',

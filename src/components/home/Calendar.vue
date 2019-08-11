@@ -1,10 +1,16 @@
 <template>
   <div>
     <v-sheet height="500">
-      <v-calendar :now="today" :value="today" @click:date="myClickHandler" v-show="show.value">
+      <v-calendar
+        :value="today"
+        @click:date="myClickHandler"
+        v-show="show.value"
+        :weekdays="[1, 2, 3, 4, 5, 6, 0]"
+        locale="fr"
+      >
         <template v-slot:day="{ present, past, date }">
           <v-layout fill-height>
-            <template v-if="past && tracked[date]">
+            <template>
               <v-sheet
                 v-for="(percent, i) in tracked[date]"
                 :key="i"
@@ -20,6 +26,12 @@
       </v-calendar>
     </v-sheet>
 
+    <VSpacer v-bind:space="20" />
+
+    <div id="legend">
+      <span v-for="(color, i) in colors" :key="i" :style="setBackgroundColor(color)">{{category[i]}}</span>
+    </div>
+
     <SelectDay
       :hidden="!displayConfirmation"
       :date="selectedDate"
@@ -28,11 +40,27 @@
   </div>
 </template>
 
+<style scoped>
+#legend span {
+  padding: 5px;
+  color: white;
+}
+</style>
+
+<style>
+.v-calendar-weekly__day.v-present .v-calendar-weekly__day-label button {
+  background-color: red;
+}
+</style>
+
+
+
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { default as axios } from 'axios';
 import { Utils } from '@/utils/utils';
 import SelectDay from '@/components/home/SelectDay.vue';
+import VSpacer from '@/components/commons/VSpacer.vue';
 import { CalendarCollectInterface } from '@/interfaces/calendar/calendar.interface';
 
 class ObservableBoolean {
@@ -43,35 +71,39 @@ class ObservableBoolean {
   }
 }
 
-class Dictionnary<T> {
-  private keys: string[];
-  private values: T[][];
+class CalendarDictionnary {
+  public keys: string[];
+  public values: number[][];
+  private length: number = Utils.getUsers().length;
 
   constructor() {
     this.keys = new Array();
     this.values = new Array();
   }
 
-  addKey(key: string) {
+  createKey(key: string) {
     if (this.keys.indexOf(key) === -1) {
       this.keys.push(key);
-      this.values.push(new Array());
+      this.values.push(new Array(length).fill(0));
     }
   }
 
-  addKeyValue(key: string, value: T) {
+  push(key: string, index: number, value: number) {
     const keyIndex: number = this.keys.indexOf(key);
     if (keyIndex !== -1) {
-      this.values[keyIndex].push(value);
+      this.values[keyIndex][index] = value;
+    } else {
+      this.createKey(key);
+      this.push(key, index, value);
     }
   }
 }
 
 @Component({
-  components: { SelectDay },
+  components: { SelectDay, VSpacer },
 })
 export default class Calendar extends Vue {
-  public today = new Date().toString();
+  public today: string = '2019-08-10';
   public tracked: any = {};
   public colors: string[] = Utils.getUsersColor();
   public category: string[] = Utils.getUsers();
@@ -87,43 +119,65 @@ export default class Calendar extends Vue {
       this.computeData(res.data);
       this.show.update(true);
     });
-
-    this.test();
   }
 
-  test() {
-    const dico: Dictionnary<string> = new Dictionnary();
+  translate(i: number) {
+    switch (i) {
+      case 0:
+        return 'Lundi';
+      case 0:
+        return 'Lundi';
+      case 0:
+        return 'Lundi';
+      case 0:
+        return 'Lundi';
+      case 0:
+        return 'Lundi';
+      case 0:
+        return 'Lundi';
+    }
+  }
 
-    dico.addKey('today');
-    dico.addKey('yesterday');
-    dico.addKey('tomorrow');
-
-    dico.addKeyValue('today', 'Bastien');
-    dico.addKeyValue('today', 'Margot');
-    dico.addKeyValue('yesterday', 'Cyril');
-    dico.addKeyValue('tomorow', 'Ludivine');
-
-    console.log(dico);
+  setBackgroundColor(color: string): string {
+    return `background-color:${color}`;
   }
 
   computeData(data: CalendarCollectInterface[]) {
-    console.log(data);
+    const dico: CalendarDictionnary = new CalendarDictionnary();
+    const users: string[] = Utils.getUsers();
 
-    // '2019-01-09': [23, 45, 10],
-
-    /**
-     * {
-    "user": "Bastien",
-    "date": "2019-08-08T00:00:00.000Z"
-  },
-     */
-
+    // Fill dico structure
     data.forEach(elt => {
       const key: string = elt.date.toString().substring(0, 10);
-      console.log(key);
+
+      const index: number = users.indexOf(elt.user);
+
+      dico.push(key, index, 14);
     });
 
-    Utils.copyObject(this.tracked, data);
+    const calendarData: any = {};
+
+    dico.keys.forEach((k, i) => {
+      calendarData[k] = dico.values[i];
+    });
+
+    console.log(calendarData);
+
+    /*  const toto = {
+      '2019-08-09': [23, 45, 10],
+      '2019-08-08': [10],
+      '2019-08-07': [0, 78, 5],
+      '2019-08-06': [0, 0, 50],
+      '2019-08-05': [0, 10, 23],
+      '2019-08-04': [2, 90],
+      '2019-08-03': [10, 32],
+      '2019-08-02': [80, 10, 10],
+      '2019-08-01': [20, 25, 10],
+    };
+
+    console.log(toto); */
+
+    Utils.copyObject(this.tracked, calendarData);
     console.log(this.tracked);
   }
 
