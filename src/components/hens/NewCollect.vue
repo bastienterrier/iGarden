@@ -28,7 +28,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="#4CAF50" dark flat @click="signalCollect">Valider</v-btn>
+            <v-btn color="#4CAF50" dark flat @click="signalCollect" :disabled="disableBtn">Valider</v-btn>
             <v-btn color="#FF9800" dark flat @click="dialog = false">Annuler</v-btn>
           </v-card-actions>
         </v-card>
@@ -51,9 +51,11 @@ export default class NewCollect extends Vue {
   public iconResult: string = '';
   public explainationError: string = '';
   public eggsCount: number = 0;
+  public disableBtn: boolean = false;
 
   public signalCollect() {
     const user: string = localStorage.getItem('user') || '';
+    this.disableBtn = true;
     axios
       .post(`${process.env.VUE_APP_API_URL}/hens`, {
         picker: user,

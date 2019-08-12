@@ -28,9 +28,14 @@
 
     <VSpacer v-bind:space="20" />
 
-    <div id="legend">
-      <span v-for="(color, i) in colors" :key="i" :style="setBackgroundColor(color)">{{category[i]}}</span>
-    </div>
+    <v-layout align-center justify-space-around row fill-height id="legend">
+      <v-flex
+        class="legend-item"
+        v-for="(color, i) in colors"
+        :key="i"
+        :style="setBackgroundColor(color)"
+      >{{category[i]}}</v-flex>
+    </v-layout>
 
     <SelectDay
       :hidden="!displayConfirmation"
@@ -41,7 +46,11 @@
 </template>
 
 <style scoped>
-#legend span {
+#legend {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.legend-item {
   padding: 5px;
   color: white;
 }

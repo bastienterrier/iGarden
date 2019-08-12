@@ -4,20 +4,6 @@
 
     <Calendar/>
 
-    <ul>
-      <li>
-        <router-link to="/egg">
-          Collecte des oeufs
-          <v-icon color="#4CAF50">fa-egg</v-icon>
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/garden">
-          Arrosage du potager
-          <v-icon color="#4CAF50">fa-seedling</v-icon>
-        </router-link>
-      </li>
-    </ul>
   </div>
 </template>
 

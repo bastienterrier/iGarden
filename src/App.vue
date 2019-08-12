@@ -21,6 +21,9 @@ export default class App extends Vue {}
 
 
 <style>
+html {
+  overflow: auto !important;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

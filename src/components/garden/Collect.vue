@@ -26,7 +26,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="#4CAF50" dark flat @click="signalCollect">Valider</v-btn>
+            <v-btn color="#4CAF50" dark flat @click="signalCollect" :disabled="disableBtn">Valider</v-btn>
             <v-btn color="#FF9800" dark flat @click="dialog = false">Annuler</v-btn>
           </v-card-actions>
         </v-card>
@@ -54,6 +54,7 @@ export default class GardenCollect extends Vue {
   public iconResult: string = '';
   public explainationError: string = '';
   public eggsCount: number = 0;
+  public disableBtn: boolean = false;
 
   private wateringDone: boolean = false;
   private horsesDone: boolean = false;
@@ -99,6 +100,7 @@ export default class GardenCollect extends Vue {
 
   public signalCollect() {
     const user: string = localStorage.getItem('user') || '';
+    this.disableBtn = true;
     const data: GardenCollectInterface = this.setGardenCollect();
     axios
       .post(`${process.env.VUE_APP_API_URL}/gardens`, data)

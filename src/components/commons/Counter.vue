@@ -101,5 +101,6 @@ input[type='number']::-webkit-inner-spin-button {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   text-align: center;
+  width: 150px;
 }
 </style>

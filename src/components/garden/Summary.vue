@@ -1,6 +1,16 @@
 <template>
   <div>
-    <p class="highlight">{{gardenCollect.user}} le {{gardenCollect.date | formatDate}}</p>
+    <p
+      class="highlight"
+      :hidden="gardenCollect.user===''"
+    >{{gardenCollect.user}} le {{gardenCollect.date | formatDate}}</p>
+
+    <div :hidden="gardenCollect.user!==''">
+      {{errorMessage.message}}
+      <div :hidden="errorMessage.message!==''">
+        <v-progress-circular indeterminate color="#4CAF50"></v-progress-circular>
+      </div>
+    </div>
 
     <p v-for="item in gardenCollect.summary" :key="item.action">
       {{displayResult(item)}}
@@ -22,6 +32,7 @@ import {
 } from '@/interfaces/garden/garden.interface';
 import { default as axios } from 'axios';
 import { Utils } from '@/utils/utils';
+import { ErrorInterface } from '@/interfaces/commons/error.interface';
 
 @Component({
   components: {
@@ -34,9 +45,15 @@ export default class GardenSummary extends Vue {
     date: new Date(),
     summary: [],
   };
+  private errorMessage: ErrorInterface;
 
   constructor() {
     super();
+
+    this.errorMessage = {
+      message: '',
+    };
+
     axios
       .get(`${process.env.VUE_APP_API_URL}/gardens/last`)
       .then(response => {
@@ -44,7 +61,7 @@ export default class GardenSummary extends Vue {
         Utils.copyObject(this.gardenCollect, result);
       })
       .catch(err => {
-        throw err;
+        this.errorMessage.message = err;
       });
   }
 

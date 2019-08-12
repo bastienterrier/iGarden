@@ -15,13 +15,13 @@ export class Utils {
 
   public static getUsersColor(): string[] {
     return [
-      '#000000',
-      '#ababab',
+      '#0373fc',
+      '#fc03a9',
       '#ff0000',
-      '#ffff00',
-      '#0000ff',
-      '#ff00ff',
-      '#00ffff',
+      '#0a4217',
+      '#ab08c4',
+      '#4CAF50',
+      '#e07b00',
     ];
   }
 
