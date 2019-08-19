@@ -48,6 +48,7 @@ import {
   GardenCollectInterface,
   GardenSummaryInterface,
 } from '@/interfaces/garden/garden.interface';
+import { Utils } from '../../utils/utils';
 
 @Component({
   components: { Counter, SelectBoolean },
@@ -65,7 +66,7 @@ export default class GardenCollect extends Vue {
   private tankLevel: number = -1;
 
   private setGardenCollect(): GardenCollectInterface {
-    const user: string = localStorage.getItem('user') || '';
+    const user: string = Utils.getCurrentUser();
     const summary: GardenSummaryInterface[] = new Array();
     summary.push({
       action: 'Arrosage de la serre',
@@ -102,7 +103,7 @@ export default class GardenCollect extends Vue {
   }
 
   public signalCollect() {
-    const user: string = localStorage.getItem('user') || '';
+    const user: string = Utils.getCurrentUser();
     this.disableBtn = true;
     const data: GardenCollectInterface = this.setGardenCollect();
     axios

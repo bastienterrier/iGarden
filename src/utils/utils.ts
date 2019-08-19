@@ -1,6 +1,10 @@
 import { EggsCollect } from '@/interfaces/hens/hens.interface';
 
 export class Utils {
+  public static getCurrentUser(): string {
+    return localStorage.getItem('user') || '';
+  }
+
   public static getUsers(): string[] {
     return [
       'Ludivine',

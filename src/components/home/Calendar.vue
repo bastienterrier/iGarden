@@ -40,6 +40,7 @@
     <SelectDay
       :hidden="!displayConfirmation"
       :date="selectedDate"
+      :check="alreadyCheck.value"
       v-on:closeDialog="handleCloseDialog"
     />
   </div>
@@ -121,6 +122,7 @@ export default class Calendar extends Vue {
   // Dialog box
   public displayConfirmation: boolean = false;
   public selectedDate: Date | undefined;
+  public alreadyCheck: ObservableBoolean = new ObservableBoolean();
 
   constructor() {
     super();
@@ -128,23 +130,6 @@ export default class Calendar extends Vue {
       this.computeData(res.data);
       this.show.update(true);
     });
-  }
-
-  translate(i: number) {
-    switch (i) {
-      case 0:
-        return 'Lundi';
-      case 0:
-        return 'Lundi';
-      case 0:
-        return 'Lundi';
-      case 0:
-        return 'Lundi';
-      case 0:
-        return 'Lundi';
-      case 0:
-        return 'Lundi';
-    }
   }
 
   setBackgroundColor(color: string): string {
@@ -170,34 +155,30 @@ export default class Calendar extends Vue {
       calendarData[k] = dico.values[i];
     });
 
-    console.log(calendarData);
-
-    /*  const toto = {
-      '2019-08-09': [23, 45, 10],
-      '2019-08-08': [10],
-      '2019-08-07': [0, 78, 5],
-      '2019-08-06': [0, 0, 50],
-      '2019-08-05': [0, 10, 23],
-      '2019-08-04': [2, 90],
-      '2019-08-03': [10, 32],
-      '2019-08-02': [80, 10, 10],
-      '2019-08-01': [20, 25, 10],
-    };
-
-    console.log(toto); */
-
     Utils.copyObject(this.tracked, calendarData);
-    console.log(this.tracked);
   }
 
   myClickHandler(data: any) {
-    console.log(data);
-    this.displayConfirmation = true;
     this.selectedDate = new Date(data.date);
+
+    this.alreadyCheck.update(this.isAlreadyChecked(data.date));
+    this.displayConfirmation = true;
   }
 
   handleCloseDialog() {
     this.displayConfirmation = false;
+  }
+
+  isAlreadyChecked(date: Date): boolean {
+    const user: string = Utils.getCurrentUser();
+    const index: number = Utils.getUsers().indexOf(user);
+    const theDate: string = date.toString().substring(0, 10);
+
+    if (this.tracked[theDate] === undefined) {
+      return false;
+    }
+
+    return this.tracked[theDate][index] === 14 ? true : false;
   }
 }
 </script>

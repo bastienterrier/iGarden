@@ -45,6 +45,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Counter from '@/components/commons/Counter.vue';
 import { default as axios } from 'axios';
+import { Utils } from '../../utils/utils';
 
 @Component({
   components: { Counter },
@@ -57,7 +58,7 @@ export default class NewCollect extends Vue {
   public disableBtn: boolean = false;
 
   public signalCollect() {
-    const user: string = localStorage.getItem('user') || '';
+    const user: string = Utils.getCurrentUser();
     this.disableBtn = true;
     axios
       .post(`${process.env.VUE_APP_API_URL}/hens`, {
