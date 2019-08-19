@@ -10,7 +10,10 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-title class="headline">Informations complémentaires</v-card-title>
+          <v-card-title class="headline">
+            Informations complémentaires
+            <v-icon @click="dialog = false" class="right-align">fa-times</v-icon>
+          </v-card-title>
           <v-card-text>
             <SelectBoolean label="arrosage serre" v-model="wateringDone" />
             <SelectBoolean label="abreuvoir chevaux" v-model="horsesDone" />

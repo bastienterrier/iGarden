@@ -38,4 +38,9 @@ html {
 .highlight {
   font-size: 2em;
 }
+
+.right-align {
+  right: 20px;
+  position: absolute;
+}
 </style>

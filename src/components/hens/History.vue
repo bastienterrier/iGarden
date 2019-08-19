@@ -6,7 +6,10 @@
           <v-icon v-on="on">fa-history</v-icon>
         </template>
         <v-card>
-          <v-card-title class="headline">Historique</v-card-title>
+          <v-card-title class="headline">
+            Historique
+            <v-icon @click="dialog = false" class="right-align">fa-times</v-icon>
+          </v-card-title>
           <v-card-text>
             <v-simple-table>
               <thead>
@@ -66,7 +69,3 @@ export default class History extends Vue {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

@@ -10,7 +10,10 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-title class="headline">Informations complémentaires</v-card-title>
+          <v-card-title class="headline">
+            Informations complémentaires
+            <v-icon @click="dialog = false" class="right-align">fa-times</v-icon>
+          </v-card-title>
           <v-card-text>
             <Counter v-model="eggsCount" :max="25" :step="1" />
           </v-card-text>
