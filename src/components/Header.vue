@@ -24,7 +24,6 @@
         <v-icon>fa-seedling</v-icon>
       </v-btn>
     </router-link>
-
   </v-app-bar>
 </template>
 
@@ -42,6 +41,10 @@ a {
   color: inherit;
 }
 a:hover {
+  color: #1b5e20;
+}
+
+a:hover .v-icon {
   color: #1b5e20;
 }
 </style>
