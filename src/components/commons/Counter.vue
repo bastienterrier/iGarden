@@ -58,7 +58,6 @@ export default class Counter extends Vue {
 
   blurHandler(n: any) {
     const blurVal: number = n.srcElement.value;
-    console.log(blurVal);
 
     this.updateValue(blurVal);
   }

@@ -24,6 +24,12 @@
         <v-icon>fa-seedling</v-icon>
       </v-btn>
     </router-link>
+
+    <router-link to="/todo">
+      <v-btn icon>
+        <v-icon>fa-tasks</v-icon>
+      </v-btn>
+    </router-link>
   </v-app-bar>
 </template>
 

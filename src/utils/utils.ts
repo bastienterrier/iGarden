@@ -1,4 +1,5 @@
 import { EggsCollect } from '@/interfaces/hens/hens.interface';
+import { ToDoState } from '@/interfaces/todo/todo.interface';
 
 export class Utils {
   public static getCurrentUser(): string {
@@ -52,5 +53,18 @@ export class Utils {
     src.forEach((e, i) => {
       this.copyObject(e, copy[i]);
     });
+  }
+
+  public static translateTodoState(state: string): ToDoState {
+    switch (state) {
+      case 'WIP':
+        return ToDoState.WIP;
+      case 'DONE':
+        return ToDoState.DONE;
+      case 'TODO':
+        return ToDoState.TODO;
+      default:
+        return ToDoState.TODO;
+    }
   }
 }
