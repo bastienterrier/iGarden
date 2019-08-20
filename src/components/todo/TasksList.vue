@@ -2,7 +2,7 @@
   <div>
     <div v-for="item in tasks" :key="item.title" :hidden="item.state==='DONE'">
       <v-card class="mx-auto">
-        <v-card-title>
+        <v-card-title style="text-align: left;">
           {{item.title}}
           <div class="wip" :hidden="item.state!=='WIP'">🚧 en cours</div>
         </v-card-title>
@@ -62,6 +62,7 @@ export default class TasksList extends Vue {
   }
 
   axiosUpdateState(title: string, state: string) {
+    title = encodeURI(title);
     axios
       .patch(`${process.env.VUE_APP_API_URL}/todos/${title}`, { state })
       .then(response => {

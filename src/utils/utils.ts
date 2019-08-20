@@ -15,6 +15,7 @@ export class Utils {
       'Jean-Luc',
       'Bastien',
       'Cyril',
+      'JB',
     ];
   }
 
@@ -27,6 +28,7 @@ export class Utils {
       '#ab08c4',
       '#4CAF50',
       '#e07b00',
+      '#70220c',
     ];
   }
 
