@@ -4,7 +4,7 @@
       <v-card class="mx-auto">
         <v-card-title>
           {{item.title}}
-          <span :hidden="item.state!=='WIP'" class="right-align wip">🚧 en cours</span>
+          <div class="wip" :hidden="item.state!=='WIP'">🚧 en cours</div>
         </v-card-title>
         <v-card-text class="left">{{item.description}}</v-card-text>
         <!--  <v-card-text :hidden="item.state!=='WIP'">
@@ -103,6 +103,7 @@ ul li {
   display: none;
 }
 .wip {
-  font-size: 0.8em;
+  font-size: 0.9em;
+  text-align: right;
 }
 </style>
