@@ -1,35 +1,38 @@
 import { EggsCollect } from '@/interfaces/hens/hens.interface';
 import { ToDoState } from '@/interfaces/todo/todo.interface';
+import { User } from '@/interfaces/settings/settings.interface';
+import { default as axios } from 'axios';
 
 export class Utils {
+  public static users: User[];
+
+  public static async initialize(): Promise<any> {
+    return await axios
+      .get(`${process.env.VUE_APP_API_URL}/settings/users`)
+      .then(response => {
+        const result: User[] = response.data as User[];
+        this.users = result;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
   public static getCurrentUser(): string {
     return localStorage.getItem('user') || '';
   }
 
-  public static getUsers(): string[] {
-    return [
-      'Ludivine',
-      'Margot',
-      'Janine',
-      'Marie-Paule',
-      'Jean-Luc',
-      'Bastien',
-      'Cyril',
-      'JB',
-    ];
+  public static getCurrentUserColor(): string {
+    const user: string = localStorage.getItem('user') || '';
+    return (this.users.find(u => u.name === user) as User).color;
+  }
+
+  public static getUsersName(): string[] {
+    return this.users.map(u => u.name);
   }
 
   public static getUsersColor(): string[] {
-    return [
-      '#0373fc',
-      '#fc03a9',
-      '#ff0000',
-      '#0a4217',
-      '#ab08c4',
-      '#4CAF50',
-      '#e07b00',
-      '#70220c',
-    ];
+    return this.users.map(u => u.color);
   }
 
   public static copyEggsCollect(source: EggsCollect, copy: EggsCollect) {

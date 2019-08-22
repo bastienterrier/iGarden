@@ -3,6 +3,7 @@
     <v-sheet height="500">
       <v-calendar
         :value="today"
+        :now="today"
         @click:date="myClickHandler"
         v-show="show.value"
         :weekdays="[1, 2, 3, 4, 5, 6, 0]"
@@ -84,7 +85,7 @@ class ObservableBoolean {
 class CalendarDictionnary {
   public keys: string[];
   public values: number[][];
-  private length: number = Utils.getUsers().length;
+  private length: number = Utils.getUsersName().length;
 
   constructor() {
     this.keys = new Array();
@@ -113,10 +114,10 @@ class CalendarDictionnary {
   components: { SelectDay, VSpacer },
 })
 export default class Calendar extends Vue {
-  public today: string = '2019-08-10';
+  public today: string = '2019-08-21'; //new Date().toISOString().split('T')[0];
   public tracked: any = {};
   public colors: string[] = Utils.getUsersColor();
-  public category: string[] = Utils.getUsers();
+  public category: string[] = Utils.getUsersName();
   public show: ObservableBoolean = new ObservableBoolean();
 
   // Dialog box
@@ -138,7 +139,7 @@ export default class Calendar extends Vue {
 
   computeData(data: CalendarCollectInterface[]) {
     const dico: CalendarDictionnary = new CalendarDictionnary();
-    const users: string[] = Utils.getUsers();
+    const users: string[] = Utils.getUsersName();
 
     // Fill dico structure
     data.forEach(elt => {
@@ -159,6 +160,7 @@ export default class Calendar extends Vue {
   }
 
   myClickHandler(data: any) {
+    console.log('CLICK!');
     this.selectedDate = new Date(data.date);
 
     this.alreadyCheck.update(this.isAlreadyChecked(data.date));
@@ -171,7 +173,7 @@ export default class Calendar extends Vue {
 
   isAlreadyChecked(date: Date): boolean {
     const user: string = Utils.getCurrentUser();
-    const index: number = Utils.getUsers().indexOf(user);
+    const index: number = Utils.getUsersName().indexOf(user);
     const theDate: string = date.toString().substring(0, 10);
 
     if (this.tracked[theDate] === undefined) {

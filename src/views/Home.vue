@@ -2,8 +2,7 @@
   <div>
     <SelectUser />
 
-    <Calendar/>
-
+    <Calendar />
   </div>
 </template>
 
@@ -28,7 +27,7 @@ import Calendar from '@/components/home/Calendar.vue'; // @ is an alias to /src
 @Component({
   components: {
     SelectUser,
-    Calendar
+    Calendar,
   },
 })
 export default class Home extends Vue {}

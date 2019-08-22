@@ -23,6 +23,8 @@ export default class App extends Vue {}
 <style>
 html {
   overflow: auto !important;
+  position: inherit;
+  z-index: initial;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -30,9 +32,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  position: relative;
+  z-index: 0;
 }
 #body-content {
   margin-top: 20px;
+  position: relative;
+  z-index: -1;
 }
 
 .highlight {

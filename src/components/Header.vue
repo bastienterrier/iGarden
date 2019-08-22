@@ -1,14 +1,9 @@
 <template>
   <v-app-bar dark color="#4CAF50">
-    <v-btn icon style="display:none;">
-      <v-icon>fa-bars</v-icon>
-    </v-btn>
+    <Settings />
 
     <v-toolbar-title>
-      <router-link to="/">
-        iGarden
-        <v-icon>fa-leaf</v-icon>
-      </router-link>
+      <router-link to="/">iGarden</router-link>
     </v-toolbar-title>
 
     <v-spacer></v-spacer>
@@ -36,7 +31,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-@Component
+import Settings from '@/components/settings/Settings.vue'; // @ is an alias to /src
+
+@Component({
+  components: {
+    Settings,
+  },
+})
 export default class Header extends Vue {}
 </script>
 

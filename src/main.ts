@@ -8,12 +8,17 @@ import 'vuetify/dist/vuetify.min.css';
 import Vuetify from 'vuetify';
 
 import '@babel/polyfill';
+import { Utils } from './utils/utils';
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  vuetify: new Vuetify(),
-  render: h => h(App),
-}).$mount('#app');
+Utils.initialize();
+
+setTimeout(() => {
+  new Vue({
+    router,
+    store,
+    vuetify: new Vuetify(),
+    render: h => h(App),
+  }).$mount('#app');
+}, 1000);

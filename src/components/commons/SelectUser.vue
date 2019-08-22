@@ -33,7 +33,7 @@ export default class SelectUser extends Vue {
 
   constructor() {
     super();
-    this.users = Utils.getUsers();
+    this.users = Utils.getUsersName();
     let user: string = Utils.getCurrentUser();
     if (user !== '') {
       this.dialog = false;
