@@ -160,7 +160,6 @@ export default class Calendar extends Vue {
   }
 
   myClickHandler(data: any) {
-    console.log('CLICK!');
     this.selectedDate = new Date(data.date);
 
     this.alreadyCheck.update(this.isAlreadyChecked(data.date));

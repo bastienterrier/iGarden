@@ -2,11 +2,13 @@ import { EggsCollect } from '@/interfaces/hens/hens.interface';
 import { ToDoState } from '@/interfaces/todo/todo.interface';
 import { User } from '@/interfaces/settings/settings.interface';
 import { default as axios } from 'axios';
+import { WeatherInterface } from '../interfaces/commons/weather.interface';
 
 export class Utils {
   public static users: User[];
+  public static weather: WeatherInterface[];
 
-  public static async initialize(): Promise<any> {
+  public static async downloadUser(): Promise<any> {
     return await axios
       .get(`${process.env.VUE_APP_API_URL}/settings/users`)
       .then(response => {
@@ -16,6 +18,57 @@ export class Utils {
       .catch(err => {
         console.error(err);
       });
+  }
+
+  public static displayWeather(w: WeatherInterface): string {
+    return `${w.day} ${w.period} - Temp ${w.temperature}°C - Weather ${
+      w.weather
+    }`;
+  }
+
+  public static compareDateWithoutTime(date1: Date, date2: Date): boolean {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
+
+  public static getWeather(day: Date): WeatherInterface[] {
+    return this.weather.filter(w => this.compareDateWithoutTime(w.day, day));
+  }
+
+  public static async downloadWeather(): Promise<any> {
+    this.weather = new Array();
+    axios
+      .get(
+        `https://api.meteo-concept.com/api/forecast/daily/periods?token=${
+          process.env.VUE_APP_WEATHER_TOKEN
+        }&insee=62863`,
+      )
+      .then(res => {
+        const forecast = res.data.forecast;
+        forecast.forEach((f: any) => {
+          f.forEach((p: any) => {
+            const date: Date = new Date();
+            date.setDate(date.getDate() + p.day);
+            const weather: WeatherInterface = {
+              day: date,
+              period: p.period,
+              temperature: p.temp2m,
+              weather: p.weather,
+            };
+            this.weather.push(weather);
+            console.log(this.displayWeather(weather));
+          });
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  public static async initialize(): Promise<any> {
+    await this.downloadWeather();
+    return await this.downloadUser();
   }
 
   public static getCurrentUser(): string {

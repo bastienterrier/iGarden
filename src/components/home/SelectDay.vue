@@ -4,6 +4,9 @@
       <v-dialog v-model="dialog" persistent max-width="300">
         <v-card>
           <v-card-title class="headline">{{date | formatDay}}</v-card-title>
+          <v-card-text>
+            <Weather :date="date" />
+          </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="#4CAF50" dark flat @click="selectDay">
@@ -24,9 +27,10 @@ import '@/utils/filter';
 import { default as axios } from 'axios';
 import { CalendarCollectInterface } from '../../interfaces/calendar/calendar.interface';
 import { Utils } from '../../utils/utils';
+import Weather from '@/components/home/Weather.vue';
 
 @Component({
-  components: {},
+  components: { Weather },
 })
 export default class SelectDay extends Vue {
   public dialog: boolean = true;
