@@ -1,13 +1,22 @@
 <template>
   <div>
+    <v-btn small @click="$refs.calendar.prev()">
+      <v-icon dark>fa-angle-left</v-icon>
+    </v-btn>
+    <v-btn small @click="$refs.calendar.next()">
+      <v-icon dark>fa-angle-right</v-icon>
+    </v-btn>
+    <VSpacer space="5" />
     <v-sheet height="500">
       <v-calendar
+        ref="calendar"
         :value="today"
         :now="today"
         @click:date="myClickHandler"
         v-show="show.value"
         :weekdays="[1, 2, 3, 4, 5, 6, 0]"
         locale="fr"
+        v-model="start"
       >
         <template v-slot:day="{ present, past, date }">
           <v-layout fill-height>
@@ -58,14 +67,6 @@
 }
 </style>
 
-<style>
-.v-calendar-weekly__day.v-present .v-calendar-weekly__day-label button {
-  background-color: red;
-}
-</style>
-
-
-
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { default as axios } from 'axios';
@@ -114,11 +115,13 @@ class CalendarDictionnary {
   components: { SelectDay, VSpacer },
 })
 export default class Calendar extends Vue {
-  public today: string = '2019-08-21'; //new Date().toISOString().split('T')[0];
+  public today: string = new Date().toISOString().split('T')[0]; //new Date().toISOString().split('T')[0];
   public tracked: any = {};
   public colors: string[] = Utils.getUsersColor();
   public category: string[] = Utils.getUsersName();
   public show: ObservableBoolean = new ObservableBoolean();
+
+  public start: string;
 
   // Dialog box
   public displayConfirmation: boolean = false;
@@ -127,10 +130,23 @@ export default class Calendar extends Vue {
 
   constructor() {
     super();
+    this.start = this.today;
     axios.get(`${process.env.VUE_APP_API_URL}/calendars/all`).then(res => {
       this.computeData(res.data);
       this.show.update(true);
     });
+  }
+
+  $refs!: {
+    calendar: HTMLElement;
+  };
+
+  test3(): void {
+    console.log('moved!');
+  }
+  test(): void {
+    console.log('toto');
+    (this.$refs.calendar as any).next();
   }
 
   setBackgroundColor(color: string): string {

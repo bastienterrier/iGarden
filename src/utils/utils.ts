@@ -21,9 +21,7 @@ export class Utils {
   }
 
   public static displayWeather(w: WeatherInterface): string {
-    return `${w.day} ${w.period} - Temp ${w.temperature}°C - Weather ${
-      w.weather
-    }`;
+    return `${w.day} ${w.period} - Temp ${w.temperature}°C - Weather ${w.weather}`;
   }
 
   public static compareDateWithoutTime(date1: Date, date2: Date): boolean {
@@ -42,9 +40,7 @@ export class Utils {
     this.weather = new Array();
     axios
       .get(
-        `https://api.meteo-concept.com/api/forecast/daily/periods?token=${
-          process.env.VUE_APP_WEATHER_TOKEN
-        }&insee=62863`,
+        `https://api.meteo-concept.com/api/forecast/daily/periods?token=${process.env.VUE_APP_WEATHER_TOKEN}&insee=62863`,
       )
       .then(res => {
         const forecast = res.data.forecast;
@@ -59,7 +55,6 @@ export class Utils {
               weather: p.weather,
             };
             this.weather.push(weather);
-            console.log(this.displayWeather(weather));
           });
         });
       })
