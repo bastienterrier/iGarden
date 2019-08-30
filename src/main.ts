@@ -12,13 +12,11 @@ import { Utils } from './utils/utils';
 
 Vue.config.productionTip = false;
 
-Utils.initialize();
-
-setTimeout(() => {
+Utils.initialize().then(() => {
   new Vue({
     router,
     store,
     vuetify: new Vuetify(),
     render: h => h(App),
   }).$mount('#app');
-}, 1000);
+});
