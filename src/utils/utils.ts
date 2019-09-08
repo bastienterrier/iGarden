@@ -100,6 +100,9 @@ export class Utils {
   }
 
   public static copyArray(src: any[], copy: any[]) {
+    if (src.length > 0) {
+      src = new Array();
+    }
     copy.forEach(e => {
       src.push(e);
     });
@@ -115,6 +118,19 @@ export class Utils {
       case 'DONE':
         return ToDoState.DONE;
       case 'TODO':
+        return ToDoState.TODO;
+      default:
+        return ToDoState.TODO;
+    }
+  }
+
+  public static translateTodoStateVerbose(state: string): ToDoState {
+    switch (state) {
+      case 'En cours':
+        return ToDoState.WIP;
+      case 'Terminés':
+        return ToDoState.DONE;
+      case 'A faire':
         return ToDoState.TODO;
       default:
         return ToDoState.TODO;

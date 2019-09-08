@@ -1,7 +1,15 @@
 <template>
   <div>
-    <div v-for="item in tasks" :key="item.title" :hidden="item.state==='DONE'">
-      <v-card class="mx-auto">
+    <v-select
+      v-model="categoriesValues"
+      :items="categoriesItems"
+      chips
+      label="Affichage"
+      multiple
+      outlined
+    ></v-select>
+    <div v-for="item in tasksToDisplay" :key="item.title">
+      <v-card class="mx-auto" :class="`task-${item.state}`">
         <v-card-title style="text-align: left;">
           {{item.title}}
           <div class="wip" :hidden="item.state!=='WIP'">🚧 en cours</div>
@@ -15,12 +23,17 @@
           <v-btn
             color="#4CAF50"
             dark
-            :class="item.state==='WIP'?'hide':''"
+            :class="item.state==='TODO'?'':'hide'"
             @click="beginTask(item.title)"
           >
             <v-icon>fa-wrench</v-icon>&nbsp;Commencer
           </v-btn>
-          <v-btn color="#4CAF50" dark @click="endTask(item.title)">
+          <v-btn
+            color="#4CAF50"
+            dark
+            :class="item.state!=='DONE'?'':'hide'"
+            @click="endTask(item.title)"
+          >
             <v-icon>fa-check</v-icon>&nbsp;Terminer
           </v-btn>
         </v-card-actions>
@@ -31,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import VSpacer from '@/components/commons/VSpacer.vue'; // @ is an alias to /src
 import '@/utils/filter';
 import { default as axios } from 'axios';
@@ -45,28 +58,48 @@ import { ToDoInterface, ToDoState } from '@/interfaces/todo/todo.interface';
 })
 export default class TasksList extends Vue {
   public tasks: ToDoInterface[] = new Array();
-
+  public tasksToDisplay: ToDoInterface[] = new Array();
+  public categoriesItems: string[] = ['Terminés', 'En cours', 'A faire'];
+  public categoriesValues: string[] = ['Terminés', 'En cours', 'A faire'];
   constructor() {
     super();
     axios
       .get(`${process.env.VUE_APP_API_URL}/todos/all`)
       .then(response => {
-        const result: ToDoInterface[] = (response.data as ToDoInterface[]).filter(
-          elt => elt.state !== 'DONE',
-        );
+        const result: ToDoInterface[] = response.data as ToDoInterface[];
         Utils.copyArray(this.tasks, result);
+        Utils.copyArray(this.tasksToDisplay, result);
       })
       .catch(err => {
         console.error(err);
       });
   }
 
+  @Watch('categoriesValues')
+  onPropertyChanged(value: string[], oldValue: string[]) {
+    if (value instanceof Array) {
+      console.log(value);
+      const tmp: ToDoInterface[] = new Array();
+      value.forEach(s => {
+        this.tasks.forEach(t => {
+          if (Utils.translateTodoStateVerbose(s) === t.state) {
+            tmp.push(t);
+          }
+        });
+      });
+      this.tasksToDisplay = new Array();
+      Utils.copyArray(this.tasksToDisplay, tmp);
+      console.log(this.tasksToDisplay);
+    }
+  }
+
   axiosUpdateState(title: string, state: string) {
-    title = encodeURI(title);
+    console.log(title);
+
     axios
       .patch(`${process.env.VUE_APP_API_URL}/todos/${title}`, { state })
       .then(response => {
-        (this.tasks.find(
+        (this.tasksToDisplay.find(
           elt => elt.title === title,
         ) as ToDoInterface).state = Utils.translateTodoState(state);
       })
@@ -106,5 +139,8 @@ ul li {
 .wip {
   font-size: 0.9em;
   text-align: right;
+}
+.task-DONE {
+  background-color: #c5c5c577 !important;
 }
 </style>
