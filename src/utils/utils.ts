@@ -128,7 +128,7 @@ export class Utils {
     switch (state) {
       case 'En cours':
         return ToDoState.WIP;
-      case 'Terminés':
+      case 'Terminées':
         return ToDoState.DONE;
       case 'A faire':
         return ToDoState.TODO;

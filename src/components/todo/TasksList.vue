@@ -59,8 +59,8 @@ import { ToDoInterface, ToDoState } from '@/interfaces/todo/todo.interface';
 export default class TasksList extends Vue {
   public tasks: ToDoInterface[] = new Array();
   public tasksToDisplay: ToDoInterface[] = new Array();
-  public categoriesItems: string[] = ['Terminés', 'En cours', 'A faire'];
-  public categoriesValues: string[] = ['Terminés', 'En cours', 'A faire'];
+  public categoriesItems: string[] = ['Terminées', 'En cours', 'A faire'];
+  public categoriesValues: string[] = ['Terminées', 'En cours', 'A faire'];
   constructor() {
     super();
     axios
