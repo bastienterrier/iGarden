@@ -3,7 +3,7 @@
     <p
       class="highlight"
       :hidden="gardenCollect.user===''"
-    >{{gardenCollect.user}} le {{gardenCollect.date | formatDate}}</p>
+    >{{gardenCollect.user}} le {{new Date(gardenCollect.date) | formatDate}}</p>
 
     <div :hidden="gardenCollect.user!==''">
       {{errorMessage.message}}
@@ -40,12 +40,11 @@ import { ErrorInterface } from '@/interfaces/commons/error.interface';
   },
 })
 export default class GardenSummary extends Vue {
-  public gardenCollect: GardenCollectInterface = {
-    user: '',
-    date: new Date(),
-    summary: [],
-  };
   private errorMessage: ErrorInterface;
+
+  get gardenCollect(): GardenCollectInterface {
+    return this.$store.state.gardenCollect;
+  }
 
   constructor() {
     super();
@@ -58,7 +57,7 @@ export default class GardenSummary extends Vue {
       .get(`${process.env.VUE_APP_API_URL}/gardens/last`)
       .then(response => {
         const result: GardenCollectInterface = response.data as GardenCollectInterface;
-        Utils.copyObject(this.gardenCollect, result);
+        this.$store.dispatch('setGardenCollect', result);
       })
       .catch(err => {
         this.errorMessage.message = err;

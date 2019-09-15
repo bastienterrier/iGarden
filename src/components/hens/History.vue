@@ -20,9 +20,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in history" :key="item.date">
+                <tr v-for="(item, i) in history" :key="`${item.date}-${i}`">
                   <td>{{ item.picker }}</td>
-                  <td>{{item.date | formatDate}}</td>
+                  <td>{{new Date(item.date) | formatDate}}</td>
                   <td>{{item.number}}</td>
                 </tr>
               </tbody>
@@ -49,19 +49,20 @@ import '@/utils/filter';
   components: {},
 })
 export default class History extends Vue {
-  public history: EggsCollect[];
   public dialog: boolean = false;
+
+  get history(): EggsCollect[] {
+    return this.$store.state.eggsHistory;
+  }
 
   constructor() {
     super();
-
-    this.history = new Array();
 
     axios
       .get(`${process.env.VUE_APP_API_URL}/hens/all`)
       .then(response => {
         const result: EggsCollect[] = response.data as EggsCollect[];
-        Utils.copyArray(this.history, result);
+        this.$store.dispatch('setEggsHistory', result);
       })
       .catch(err => {
         throw err;

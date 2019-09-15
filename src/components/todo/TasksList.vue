@@ -57,18 +57,24 @@ import { ToDoInterface, ToDoState } from '@/interfaces/todo/todo.interface';
   },
 })
 export default class TasksList extends Vue {
-  public tasks: ToDoInterface[] = new Array();
-  public tasksToDisplay: ToDoInterface[] = new Array();
   public categoriesItems: string[] = ['Terminées', 'En cours', 'A faire'];
   public categoriesValues: string[] = ['Terminées', 'En cours', 'A faire'];
+
+  get tasksToDisplay(): ToDoInterface[] {
+    return this.$store.state.tasksToDisplay;
+  }
+  get tasks(): ToDoInterface[] {
+    return this.$store.state.tasks;
+  }
+
   constructor() {
     super();
     axios
       .get(`${process.env.VUE_APP_API_URL}/todos/all`)
       .then(response => {
         const result: ToDoInterface[] = response.data as ToDoInterface[];
-        Utils.copyArray(this.tasks, result);
-        Utils.copyArray(this.tasksToDisplay, result);
+        this.$store.dispatch('setTasksToDisplay', result);
+        this.$store.dispatch('setTasks', result);
       })
       .catch(err => {
         console.error(err);
@@ -78,7 +84,6 @@ export default class TasksList extends Vue {
   @Watch('categoriesValues')
   onPropertyChanged(value: string[], oldValue: string[]) {
     if (value instanceof Array) {
-      console.log(value);
       const tmp: ToDoInterface[] = new Array();
       value.forEach(s => {
         this.tasks.forEach(t => {
@@ -87,15 +92,11 @@ export default class TasksList extends Vue {
           }
         });
       });
-      this.tasksToDisplay = new Array();
-      Utils.copyArray(this.tasksToDisplay, tmp);
-      console.log(this.tasksToDisplay);
+      this.$store.dispatch('setTasksToDisplay', tmp);
     }
   }
 
   axiosUpdateState(title: string, state: string) {
-    console.log(title);
-
     axios
       .patch(`${process.env.VUE_APP_API_URL}/todos/${title}`, { state })
       .then(response => {

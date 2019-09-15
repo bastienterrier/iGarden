@@ -3,7 +3,7 @@
     <p
       class="highlight"
       :hidden="eggsCollect.picker===''"
-    >{{eggsCollect.picker}} a récupéré {{eggsCollect.number}} oeufs le {{ eggsCollect.date | formatDate }}.</p>
+    >{{eggsCollect.picker}} a récupéré {{eggsCollect.number}} oeufs le {{ new Date(eggsCollect.date) | formatDate }}.</p>
     <div :hidden="eggsCollect.picker!==''">
       {{errorMessage.message}}
       <div :hidden="errorMessage.message!==''">
@@ -25,8 +25,11 @@ import '@/utils/filter';
 
 @Component
 export default class LastCollect extends Vue {
-  private eggsCollect: EggsCollect = new EggsCollect();
   private errorMessage: ErrorInterface;
+
+  get eggsCollect(): EggsCollect {
+    return this.$store.state.eggsCollect;
+  }
 
   constructor() {
     super();
@@ -39,7 +42,7 @@ export default class LastCollect extends Vue {
       .get(`${process.env.VUE_APP_API_URL}/hens/last`)
       .then(response => {
         const result: EggsCollect = response.data as EggsCollect;
-        Utils.copyObject(this.eggsCollect, result);
+        this.$store.dispatch('setEggsCollect', result);
       })
       .catch(err => {
         this.errorMessage.message = err;

@@ -116,7 +116,6 @@ class CalendarDictionnary {
 })
 export default class Calendar extends Vue {
   public today: string = new Date().toISOString().split('T')[0]; //new Date().toISOString().split('T')[0];
-  public tracked: any = {};
   public colors: string[] = Utils.getUsersColor();
   public category: string[] = Utils.getUsersName();
   public show: ObservableBoolean = new ObservableBoolean();
@@ -128,6 +127,10 @@ export default class Calendar extends Vue {
   public selectedDate: Date | undefined;
   public alreadyCheck: ObservableBoolean = new ObservableBoolean();
 
+  get tracked(): any {
+    return this.$store.state.calendarEvents;
+  }
+
   constructor() {
     super();
     this.start = this.today;
@@ -137,18 +140,6 @@ export default class Calendar extends Vue {
     });
   }
 
-  $refs!: {
-    calendar: HTMLElement;
-  };
-
-  test3(): void {
-    console.log('moved!');
-  }
-  test(): void {
-    console.log('toto');
-    (this.$refs.calendar as any).next();
-  }
-
   setBackgroundColor(color: string): string {
     return `background-color:${color}`;
   }
@@ -156,6 +147,7 @@ export default class Calendar extends Vue {
   computeData(data: CalendarCollectInterface[]) {
     const dico: CalendarDictionnary = new CalendarDictionnary();
     const users: string[] = Utils.getUsersName();
+    const width: number = 100 / users.length;
 
     // Fill dico structure
     data.forEach(elt => {
@@ -163,7 +155,7 @@ export default class Calendar extends Vue {
 
       const index: number = users.indexOf(elt.user);
 
-      dico.push(key, index, 14);
+      dico.push(key, index, width);
     });
 
     const calendarData: any = {};
@@ -172,7 +164,7 @@ export default class Calendar extends Vue {
       calendarData[k] = dico.values[i];
     });
 
-    Utils.copyObject(this.tracked, calendarData);
+    this.$store.dispatch('setCalendarEvents', calendarData);
   }
 
   myClickHandler(data: any) {
@@ -190,12 +182,13 @@ export default class Calendar extends Vue {
     const user: string = Utils.getCurrentUser();
     const index: number = Utils.getUsersName().indexOf(user);
     const theDate: string = date.toString().substring(0, 10);
+    const width: number = 100 / Utils.getUsersName().length;
 
     if (this.tracked[theDate] === undefined) {
       return false;
     }
 
-    return this.tracked[theDate][index] === 14 ? true : false;
+    return this.tracked[theDate][index] === width ? true : false;
   }
 }
 </script>
