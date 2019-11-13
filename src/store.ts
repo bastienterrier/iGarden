@@ -8,8 +8,8 @@ export default new Vuex.Store({
   state: {
     calendarEvents: {},
     eggsHistory: Array<EggsCollect>(),
-    eggsCollect: EggsCollect,
-    gardenCollect: {},
+    eggsCollect: new EggsCollect(),
+    gardenCollect: { user: '' },
     tasksToDisplay: Array<ToDoInterface>(),
     tasks: Array<ToDoInterface>(),
   },
