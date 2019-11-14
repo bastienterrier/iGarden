@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Egg from './views/Egg.vue';
 import Todo from './views/Todo.vue';
 import Garden from './views/Garden.vue';
+import Message from './views/Message.vue';
 
 Vue.use(Router);
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/todo',
       name: 'todo',
       component: Todo,
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: Message,
     },
   ],
 });

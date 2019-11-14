@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!--     <p>🚧 Fonctionnalité en cours de développement...</p>
-    -->
     <GardenSummary />
     <VSpacer v-bind:space="25" />
     <GardenCollect />

@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { EggsCollect } from './interfaces/hens/hens.interface';
 import { ToDoInterface } from './interfaces/todo/todo.interface';
+import { MessageInterface } from './interfaces/message/message.interface';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -12,6 +14,7 @@ export default new Vuex.Store({
     gardenCollect: { user: '' },
     tasksToDisplay: Array<ToDoInterface>(),
     tasks: Array<ToDoInterface>(),
+    messages: Array<MessageInterface>(),
   },
   mutations: {
     setCalendarEvents(state, events) {
@@ -30,7 +33,12 @@ export default new Vuex.Store({
       state.tasksToDisplay = tasks;
     },
     setTasks(state, tasks) {
+      console.log(tasks);
       state.tasks = tasks;
+    },
+    setMessages(state, messages) {
+      console.log(messages);
+      state.messages = messages;
     },
   },
   actions: {
@@ -51,6 +59,9 @@ export default new Vuex.Store({
     },
     setTasks({ commit }, tasks) {
       commit('setTasks', tasks);
+    },
+    setMessages({ commit }, messages) {
+      commit('setMessages', messages);
     },
   },
 });
