@@ -4,40 +4,59 @@
       <v-dialog v-model="dialog" persistent max-width="400">
         <template v-slot:activator="{ on }">
           <v-btn color="#4CAF50" dark v-on="on">
-            signalez votre passage
-            &nbsp;
+            signalez votre passage &nbsp;
             <v-icon>fa fa-seedling</v-icon>
           </v-btn>
         </template>
         <v-card>
           <v-card-title class="headline">
             Informations complémentaires
-            <v-icon @click="dialog = false" class="right-align">fa-times</v-icon>
+            <v-icon @click="dialog = false" class="right-align"
+              >fa-times</v-icon
+            >
           </v-card-title>
           <v-card-text>
             <SelectBoolean label="arrosage serre" v-model="wateringDone" />
             <SelectBoolean label="abreuvoir chevaux" v-model="horsesDone" />
-            <Counter label="niveau cuve en L" :max="1000" :step="50" v-model="tankLevel" />
-            <Counter label="nombre de courgette" :max="20" :step="1" v-model="courgetteNumber" />
+            <Counter
+              label="niveau cuve en L"
+              :max="1000"
+              :step="50"
+              v-model="tankLevel"
+            />
+            <Counter
+              label="nombre de courgette"
+              :max="20"
+              :step="1"
+              v-model="courgetteNumber"
+            />
           </v-card-text>
 
           <v-card-text :hidden="iconResult === ''">
             <p>
-              <v-icon>{{iconResult}}</v-icon>
-              {{explainationError}}
+              <v-icon>{{ iconResult }}</v-icon>
+              {{ explainationError }}
             </p>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="#4CAF50" dark flat @click="signalCollect" :disabled="disableBtn">Valider</v-btn>
-            <v-btn color="#FF9800" dark flat @click="dialog = false">Annuler</v-btn>
+            <v-btn
+              color="#4CAF50"
+              dark
+              flat
+              @click="signalCollect"
+              :disabled="disableBtn"
+              >Valider</v-btn
+            >
+            <v-btn color="#FF9800" dark flat @click="dialog = false"
+              >Annuler</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
     </v-flex>
   </v-layout>
 </template>
-
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
@@ -66,7 +85,7 @@ export default class GardenCollect extends Vue {
   private tankLevel: number = -1;
 
   private setGardenCollect(): GardenCollectInterface {
-    const user: string = Utils.getCurrentUser();
+    const user: string = Utils.getCurrentUserName();
     const summary: GardenSummaryInterface[] = new Array();
     summary.push({
       action: 'Arrosage de la serre',
@@ -103,7 +122,7 @@ export default class GardenCollect extends Vue {
   }
 
   public signalCollect() {
-    const user: string = Utils.getCurrentUser();
+    const user: string = Utils.getCurrentUserName();
     this.disableBtn = true;
     const data: GardenCollectInterface = this.setGardenCollect();
     axios

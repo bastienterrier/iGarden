@@ -33,12 +33,13 @@ export default new Vuex.Store({
       state.tasksToDisplay = tasks;
     },
     setTasks(state, tasks) {
-      console.log(tasks);
       state.tasks = tasks;
     },
     setMessages(state, messages) {
-      console.log(messages);
       state.messages = messages;
+    },
+    addMessage(state, message) {
+      state.messages.push(message);
     },
   },
   actions: {
@@ -62,6 +63,9 @@ export default new Vuex.Store({
     },
     setMessages({ commit }, messages) {
       commit('setMessages', messages);
+    },
+    addMessage({ commit }, message) {
+      commit('addMessage', message);
     },
   },
 });

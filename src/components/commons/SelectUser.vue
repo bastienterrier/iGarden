@@ -6,7 +6,11 @@
           <v-card-title class="headline">Sélectionner un nom</v-card-title>
           <v-card-text>
             <v-flex>
-              <v-select :items="users" label="Selectionnez un nom" v-model="user"></v-select>
+              <v-select
+                :items="users"
+                label="Selectionnez un nom"
+                v-model="user"
+              ></v-select>
             </v-flex>
           </v-card-text>
           <v-card-actions>
@@ -34,7 +38,7 @@ export default class SelectUser extends Vue {
   constructor() {
     super();
     this.users = Utils.getUsersName();
-    let user: string = Utils.getCurrentUser();
+    let user: string = Utils.getCurrentUserName();
     if (user !== '') {
       this.dialog = false;
     }

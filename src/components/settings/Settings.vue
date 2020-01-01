@@ -43,7 +43,7 @@ import { Utils } from '../../utils/utils';
 export default class Settings extends Vue {
   public drawer: boolean = false;
 
-  public user: string = Utils.getCurrentUser();
+  public user: string = Utils.getCurrentUserName();
   public color: string = Utils.getCurrentUserColor();
   public loading: boolean = false;
 

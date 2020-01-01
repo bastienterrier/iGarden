@@ -44,7 +44,8 @@
         v-for="(color, i) in colors"
         :key="i"
         :style="setBackgroundColor(color)"
-      >{{category[i]}}</v-flex>
+        >{{ category[i] }}</v-flex
+      >
     </v-layout>
 
     <SelectDay
@@ -179,7 +180,7 @@ export default class Calendar extends Vue {
   }
 
   isAlreadyChecked(date: Date): boolean {
-    const user: string = Utils.getCurrentUser();
+    const user: string = Utils.getCurrentUserName();
     const index: number = Utils.getUsersName().indexOf(user);
     const theDate: string = date.toString().substring(0, 10);
     const width: number = 100 / Utils.getUsersName().length;

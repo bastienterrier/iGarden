@@ -10,8 +10,13 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@types/axios": "^0.14.0",
+    "@types/socket.io": "^2.1.4",
+    "@types/socket.io-client": "^1.4.32",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "uws": "^10.148.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",

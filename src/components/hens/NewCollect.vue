@@ -58,7 +58,7 @@ export default class NewCollect extends Vue {
   public disableBtn: boolean = false;
 
   public signalCollect() {
-    const user: string = Utils.getCurrentUser();
+    const user: string = Utils.getCurrentUserName();
     this.disableBtn = true;
     axios
       .post(`${process.env.VUE_APP_API_URL}/hens`, {

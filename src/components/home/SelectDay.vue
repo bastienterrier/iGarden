@@ -3,17 +3,19 @@
     <v-layout row justify-center>
       <v-dialog v-model="dialog" persistent max-width="300">
         <v-card>
-          <v-card-title class="headline">{{date | formatDay}}</v-card-title>
+          <v-card-title class="headline">{{ date | formatDay }}</v-card-title>
           <v-card-text>
             <Weather :date="date" />
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="#4CAF50" dark flat @click="selectDay">
-              <span v-if="check===false">Confirmer</span>
+              <span v-if="check === false">Confirmer</span>
               <span v-else>Se désinscrire</span>
             </v-btn>
-            <v-btn color="#FF9800" dark flat @click="closeDialog">Annuler</v-btn>
+            <v-btn color="#FF9800" dark flat @click="closeDialog"
+              >Annuler</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -34,11 +36,11 @@ import Weather from '@/components/home/Weather.vue';
 })
 export default class SelectDay extends Vue {
   public dialog: boolean = true;
-  public user: string = Utils.getCurrentUser();
+  public user: string = Utils.getCurrentUserName();
   public confirmOrDelete: string = 'Confirmer';
 
-  @Prop(Date) readonly date: Date | undefined;
-  @Prop() readonly check: boolean | undefined;
+  @Prop(Date) readonly date!: Date;
+  @Prop() readonly check!: boolean;
 
   public selectDay() {
     if (this.date instanceof Date) {
@@ -50,12 +52,10 @@ export default class SelectDay extends Vue {
       if (this.check === true) {
         axios
           .delete(`${process.env.VUE_APP_API_URL}/calendars`, { data })
-          .then(res => console.log(res))
           .catch(err => console.error(err));
       } else {
         axios
           .post(`${process.env.VUE_APP_API_URL}/calendars`, data)
-          .then(res => console.log(res))
           .catch(err => console.error(err));
       }
     }

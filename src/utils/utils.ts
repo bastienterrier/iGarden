@@ -66,7 +66,7 @@ export class Utils {
     return await this.downloadUser();
   }
 
-  public static getCurrentUser(): string {
+  public static getCurrentUserName(): string {
     return localStorage.getItem('user') || '';
   }
 
@@ -81,6 +81,10 @@ export class Utils {
 
   public static getUsersColor(): string[] {
     return this.users.map(u => u.color);
+  }
+
+  public static getUserColor(name: string): string {
+    return (this.users.find(u => u.name === name) as User).color;
   }
 
   public static translateTodoState(state: string): ToDoState {
